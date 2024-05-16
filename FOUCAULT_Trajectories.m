@@ -1,4 +1,4 @@
-% Michel Tirapelle and Denis Toniolo
+% Michel Tirapelle and Denis Tognolo
 clear all
 close all
 clc
