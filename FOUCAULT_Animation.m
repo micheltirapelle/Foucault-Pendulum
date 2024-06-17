@@ -11,7 +11,7 @@ k = 0.05;
 
 g = 9.81;
 l = 15;
-W = 7.26e-5 * 1000;
+W = 7.26e-5;
 alpha = 0.8;
 
 ode = @(t, y) [ y(3);
@@ -19,18 +19,20 @@ ode = @(t, y) [ y(3);
     2*W*sin(alpha)*y(4) - y(1)*g/l;
     -2*W*sin(alpha)*y(3) - y(2)*g/l ];
 
-tend = 1000;
+tend = 100;
 X0 = [0.5, 1, 1, 1];
 n = 1;
 t = 0;
 sol = X0(:);
 e = zeros(length(X0),3);
+all_sol(:,1) = sol;
 
 plot(X0(1),X0(2),'ro', sol(1,:),sol(2,:),'.b')
 hold on
 
+i = 1;
 while (t <= tend)
-    t  = t + k;
+    
     e(:,1) = sol;
 
     e(:,2) = sol+...
@@ -50,9 +52,17 @@ while (t <= tend)
         b(3)*ode(t+c(3)*k,e(:,3))+...
         b(4)*ode(t+c(4)*k,e(:,4)));
 
+    all_sol(:,i+1) = sol;
+
+    t = t + k;
+    i = i + 1;
+
     plot(sol(1,:),sol(2,:),'b.')
     axis([-3,3,-3,3])
     title(strcat("Solution at $t$ =", num2str(t)), "Interpreter","latex")
     hold on
     drawnow
 end
+
+% figure;
+% plot(all_sol(1,:),all_sol(2,:),'.')
